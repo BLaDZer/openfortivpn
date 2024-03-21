@@ -88,7 +88,7 @@ static void cookie_changed_cb(WebKitCookieManager *self, gpointer *data)
 }
 
 /* Returns the given directory/file under the home directory.
- * Return value must be manyally freed */
+ * Return value must be manually freed */
 static char *get_under_home_dir(char *dir)
 {
 	char *username = getlogin();
@@ -184,7 +184,7 @@ int saml_get_cookie(struct vpn_config *config, char *cert)
 
 	if (!user_id) {
 		log_error(
-			"Could not find the SUDO_UID enviroment variable."
+			"Could not find the SUDO_UID environment variable."
 			"Please set it to your UID if you're not running with sudo (required to run the browser)\n");
 
 		goto exit_error;
@@ -194,7 +194,7 @@ int saml_get_cookie(struct vpn_config *config, char *cert)
 
 	if (browser_uid == 0) {
 		log_error(
-			"Cannot run the browser as root. Please set SUDO_UID to an appropiate user.\n");
+			"Cannot run the browser as root. Please set SUDO_UID to an appropriate user.\n");
 		goto exit_error;
 	}
 
