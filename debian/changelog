@@ -1,0 +1,242 @@
+openfortivpn (1.21.0-3~saml+build1) unstable; urgency=medium
+
+  * Added --saml support
+
+ -- BLaDZer <bladzer@github.com>  Thu, 21 Mar 2024 22:51:10 -0500
+
+openfortivpn (1.21.0-2) unstable; urgency=medium
+
+  * Add --enable-legacy-pppd for ppp < 2.5.0 (Closes: #1056235)
+
+ -- Daniel Echeverri <epsilon@debian.org>  Tue, 21 Nov 2023 19:31:04 -0500
+
+openfortivpn (1.21.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/rules
+    + Add ac_cv_file__proc_net_route variable to
+      Improve crossbuild.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sat, 18 Nov 2023 22:09:08 -0500
+
+openfortivpn (1.20.5-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control
+    + Bump standard versions 4.6.2.
+  * debian/copyright
+    + Extend debian copyright holder years.
+  * Add d/salsa-ci.yml file.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Mon, 03 Jul 2023 22:38:09 -0500
+
+openfortivpn (1.19.0-2) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * debian/copyright
+    + Use spaces rather than tabs to start continuation lines.
+  * debian/rules
+    + Drop unnecessary dependency on dh-autoreconf.
+  * Remove obsolete field Name from debian/upstream/metadata
+
+  [ Daniel Echeverri ]
+  * Pass resolvconf to dh_auto_configure to ensure consistent
+    path regardless of the build environment. (Closes: #1024289)
+    + Thanks Vagrant Cascadian for the patch!
+
+ -- Daniel Echeverri <epsilon@debian.org>  Mon, 21 Nov 2022 21:16:43 -0500
+
+openfortivpn (1.19.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/tests
+    + Created to perform a trivial smoke test.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sat, 22 Oct 2022 18:49:22 -0500
+
+openfortivpn (1.18.0-1) unstable; urgency=medium
+
+  * new upstream release.
+  * debian/control
+    + Add resolvconf in B-D and Suggests field. (Closes: #1016579)
+
+ -- Daniel Echeverri <epsilon@debian.org>  Wed, 05 Oct 2022 21:54:14 -0500
+
+openfortivpn (1.17.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control
+    +  Bump standard versions 4.6.1.
+  * debian/copyright
+    + Extend debian copyright holder years.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Fri, 08 Jul 2022 22:35:00 -0500
+
+openfortivpn (1.17.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update d/watch file.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sun, 14 Nov 2021 12:10:31 -0500
+
+openfortivpn (1.17.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control
+    + Bump standard versions 4.6.0.
+  * remove d/patches directory.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sat, 28 Aug 2021 10:51:25 -0500
+
+openfortivpn (1.15.0-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sun, 27 Sep 2020 21:23:37 -0500
+
+openfortivpn (1.14.1-1) unstable; urgency=medium
+
+  * New upstream release. (Closes:# 961734)
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sat, 30 May 2020 15:37:12 -0500
+
+openfortivpn (1.14.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control
+    + debhelper bump level to 13.
+  * Add postinst.sh script.
+    + Fix correct permissions to config file. (Closes: #959041)
+  * debian/copyright
+    + Fix some paths in files field.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sat, 16 May 2020 22:32:24 -0500
+
+openfortivpn (1.13.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update my last name in Debian files.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sat, 04 Apr 2020 21:29:39 -0500
+
+openfortivpn (1.13.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/upstream/metadata
+    + Add Bug-Database and Bug-Submit fields.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Fri, 27 Mar 2020 20:52:19 -0500
+
+openfortivpn (1.12.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control
+    + Bump standard versions 4.5.0.
+    + Mark Rules-Requires-Root: no as we don't need root for building.
+  * Use debhelper-compat instead of debian/compat.
+  * debian/patches
+    + Remove fix_FTCBFS_remove_AC_TRY_RUN.diff patch.
+      + Merge with upstream.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Wed, 26 Feb 2020 21:49:47 -0500
+
+openfortivpn (1.10.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control
+    + Change debhelper to 12 in B-D.
+    + Bump standard versions 4.4.0.
+  * debian/patches
+    + Refresh fix_FTCBFS_remove_AC_TRY_RUN.diff patch.
+  * debian/compat
+    + Switch compat level 11 to 12.
+  * debian/copyright
+    + Update my email address.
+    + Extend debian copyright holder years.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sat, 27 Jul 2019 10:32:19 -0500
+
+openfortivpn (1.8.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control
+    + Bump standard versions 4.3.0 (no changes).
+  * debian/patches
+    + Refresh fix_FTCBFS_remove_AC_TRY_RUN.diff patch.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sat, 29 Dec 2018 10:32:53 -0500
+
+openfortivpn (1.8.0-2) unstable; urgency=medium
+
+  * debian/patches
+    + Fix FTCBFS Remove AC_TRY_RUN. (Closes: #915158)
+      + Thanks Helmut Grohne for the patch.
+  * debian/control
+    + Add ppp in Depends.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Sat, 01 Dec 2018 21:43:39 -0500
+
+openfortivpn (1.8.0-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/patches
+    + Remove 01_notify_tunnel_up_to_systemd.diff patch.
+      + Merge with upstream.
+  * debian/rules
+    + Let dh_auto_configure pass --host to ./configure (Closes: #914826)
+      + Thanks to Helmut Grohne for the patch.
+    + Remove comments.
+  * add d/clean file.
+  * Use wrap-and-sort.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Wed, 28 Nov 2018 20:42:39 -0500
+
+openfortivpn (1.7.1-2) unstable; urgency=medium
+
+  * debian/patches
+    + Add 01_notify_tunnel_up_to_systemd.diff patch.
+      + Notify tunnel up to systemd with sd_notify. (Closes: 911684)
+  * debian/control
+    + Add libsystemd-dev in B-D.
+    + Change my email address.
+    + Bump standard versions 4.2.1 (no changes).
+  * debian/: Use wrap-and-sort.
+
+ -- Daniel Echeverri <epsilon@debian.org>  Mon, 29 Oct 2018 22:33:18 -0500
+
+openfortivpn (1.7.1-1) unstable; urgency=medium
+
+  * New upstream release.
+  * New maintainer. (Closes: #902254)
+  * debian/control
+    + Limit the package's architecture to linux-any. (Closes: #888997)
+    + Bump standard versions 4.1.4 (no changes).
+    + Set myself as Maintainer.
+    + Change debhelper to 11 in B-D.
+    + Update VCS-* fields with the new repo URL in Salsa.d.o.
+  * debian/compat
+    + Switch compat level 10 to 11.
+  * debian/upstream
+    + Add Upstream metadata file.
+  * debian/copyright
+    + Add missing copyright field.
+    + Fix some spelling errors in copyright file.
+    + Add myself in debian copyright file.
+
+ -- Daniel Echeverri <epsilon77@gmail.com>  Sun, 01 Jul 2018 20:25:30 -0500
+
+openfortivpn (1.6.0-1) unstable; urgency=medium
+
+  * New upstream release; Closes: #880505
+  * debian/copyright
+    - extend packaging copyright years
+    - bump Standards-Version to 4.1.3 (no changes needed)
+    - add pkg-config to b-d
+
+ -- Sandro Tosi <morph@debian.org>  Thu, 25 Jan 2018 20:03:37 -0500
+
+openfortivpn (1.2.0-1) experimental; urgency=low
+
+  * Initial release (Closes: #848138)
+
+ -- Sandro Tosi <morph@debian.org>  Wed, 25 Jan 2017 19:36:41 -0500

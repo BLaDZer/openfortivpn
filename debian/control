@@ -1,0 +1,29 @@
+Source: openfortivpn
+Section: net
+Priority: optional
+Maintainer: Daniel Echeverri <epsilon@debian.org>
+Uploaders: Dimitri Papadopoulos Orfanos <dimitri.papadopoulos@gmail.com>
+Build-Depends: autoconf,
+               automake,
+               debhelper-compat (= 13),
+               libssl-dev,
+               libsystemd-dev,
+               pkg-config,
+               libgtk-3-dev,
+               libwebkit2gtk-4.0-dev,
+               resolvconf
+Standards-Version: 4.6.2
+Homepage: https://github.com/adrienverge/openfortivpn
+Vcs-Git: https://salsa.debian.org/debian/openfortivpn.git
+Vcs-Browser: https://salsa.debian.org/debian/openfortivpn
+Rules-Requires-Root: no
+
+Package: openfortivpn
+Architecture: linux-any
+Depends: ${misc:Depends}, ${shlibs:Depends}, ppp
+Suggests: resolvconf
+Description: Fortinet client for PPP+SSL VPN tunnel services
+ openfortivpn is a client for PPP+SSL VPN tunnel services. It spawns a pppd
+ process and operates the communication between the gateway and this process.
+ .
+ It is compatible with Fortinet VPNs.
