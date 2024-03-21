@@ -91,7 +91,6 @@ static uint16_t frame_checksum_16bit(uint16_t sum, const uint8_t *seq, size_t le
  */
 static const uint16_t address_control_checksum = 0x3de3;
 
-
 /*
  * Each frame begins with a Flag Sequence.
  * Only one Flag Sequence is required between two frames.
@@ -107,7 +106,6 @@ void init_hdlc(void)
 {
 	need_flag_sequence = 1;
 }
-
 
 /*
  * Wraps a PPP packet into an HDLC frame and write it to a buffer.

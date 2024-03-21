@@ -68,7 +68,6 @@
 #include <string.h>
 #include <assert.h>
 
-
 struct ofv_varr {
 	unsigned int cap;	// current capacity
 	unsigned int off;	// next slot to write, always < max(cap - 1, 1)
@@ -1200,7 +1199,6 @@ int ssl_connect(struct tunnel *tunnel)
 	}
 	SSL_set_mode(tunnel->ssl_handle, SSL_MODE_AUTO_RETRY);
 
-
 	// Set SNI for the session
 	const char *sni = tunnel->config->sni[0] ? tunnel->config->sni :
 	                  tunnel->config->gateway_host;
@@ -1279,9 +1277,11 @@ int run_tunnel(struct vpn_config *config)
 		X509 *cert = SSL_get_peer_certificate(tunnel.ssl_handle);
 
 		BIO *b = BIO_new(BIO_s_mem());
+
 		PEM_write_bio_X509(b, cert);
-		
+
 		char *cert_buffer;
+
 		BIO_get_mem_data(b, &cert_buffer);
 
 		BIO_set_close(b, BIO_NOCLOSE);

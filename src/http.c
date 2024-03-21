@@ -38,7 +38,6 @@
  */
 #define HTTP_BUFFER_SIZE 0x10000
 
-
 /*
  * URL-encodes a string for HTTP requests.
  *
@@ -64,7 +63,6 @@ static void url_encode(char *dest, const char *str)
 	}
 	*dest = '\0';
 }
-
 
 /*
  * Sends data to the HTTP server.
@@ -120,7 +118,6 @@ int http_send(struct tunnel *tunnel, const char *request, ...)
 	return 1;
 }
 
-
 static const char *find_header(const char *res, const char *header,
                                uint32_t response_size)
 {
@@ -139,7 +136,6 @@ static const char *find_header(const char *res, const char *header,
 
 	return NULL;
 }
-
 
 /*
  * Receives data from the HTTP server.
@@ -261,7 +257,6 @@ int http_receive(struct tunnel *tunnel,
 	return 1;
 }
 
-
 static int do_http_request(struct tunnel *tunnel,
                            const char *method,
                            const char *uri,
@@ -294,7 +289,6 @@ static int do_http_request(struct tunnel *tunnel,
 	return http_receive(tunnel, response, response_size);
 }
 
-
 /*
  * Sends and receives data from the HTTP server.
  *
@@ -325,7 +319,6 @@ static int http_request(struct tunnel *tunnel, const char *method,
 
 	return ret;
 }
-
 
 /*
  * Read value for key from a string like "key1=value1&key2=value2".
@@ -453,7 +446,6 @@ int auth_set_cookie(struct tunnel *tunnel, const char *line)
 	return ret;
 }
 
-
 static void delay_otp(struct tunnel *tunnel)
 {
 	if (tunnel->config->otp_delay > 0) {
@@ -461,7 +453,6 @@ static void delay_otp(struct tunnel *tunnel)
 		sleep(tunnel->config->otp_delay);
 	}
 }
-
 
 static int try_otp_auth(struct tunnel *tunnel, const char *buffer,
                         char **res, uint32_t *response_size)
@@ -619,7 +610,6 @@ static int try_otp_auth(struct tunnel *tunnel, const char *buffer,
 	return http_request(tunnel, "POST", path, data, res, response_size);
 #undef SPACE_AVAILABLE
 }
-
 
 /*
  * Authenticates to gateway by sending username and password.
@@ -790,12 +780,10 @@ end:
 	return ret;
 }
 
-
 int auth_log_out(struct tunnel *tunnel)
 {
 	return http_request(tunnel, "GET", "/remote/logout", "", NULL, NULL);
 }
-
 
 int auth_request_vpn_allocation(struct tunnel *tunnel)
 {
@@ -806,7 +794,6 @@ int auth_request_vpn_allocation(struct tunnel *tunnel)
 
 	return http_request(tunnel, "GET", "/remote/fortisslvpn", "", NULL, NULL);
 }
-
 
 static int parse_xml_config(struct tunnel *tunnel, const char *buffer)
 {
@@ -886,7 +873,6 @@ static int parse_xml_config(struct tunnel *tunnel, const char *buffer)
 
 	return 1;
 }
-
 
 int auth_get_config(struct tunnel *tunnel)
 {
