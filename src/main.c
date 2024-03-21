@@ -19,6 +19,7 @@
 #include "tunnel.h"
 #include "userinput.h"
 #include "log.h"
+#include "saml.h"
 
 #include <openssl/ssl.h>
 
@@ -77,7 +78,7 @@
 
 #define usage \
 "Usage: openfortivpn [<host>[:<port>]] [-u <user>] [-p <pass>]\n" \
-"                    [--cookie=<cookie>] [--cookie-on-stdin]\n" \
+"                    [--cookie=<cookie>] [--cookie-on-stdin] [--saml]\n" \
 "                    [--otp=<otp>] [--otp-delay=<delay>] [--otp-prompt=<prompt>]\n" \
 "                    [--pinentry=<program>] [--realm=<realm>]\n" \
 "                    [--ifname=<ifname>] [--set-routes=<0|1>]\n" \
@@ -115,6 +116,7 @@ PPPD_USAGE \
 "                                " SYSCONFDIR "/openfortivpn/config).\n" \
 "  -u <user>, --username=<user>  VPN account username.\n" \
 "  -p <pass>, --password=<pass>  VPN account password.\n" \
+"  --saml                        Use saml login.\n" \
 "  --cookie=<cookie>             A valid session cookie (SVPNCOOKIE).\n" \
 "  --cookie-on-stdin             Read the cookie (SVPNCOOKIE) from standard input.\n" \
 "  -o <otp>, --otp=<otp>         One-Time-Password.\n" \
@@ -274,6 +276,7 @@ int main(int argc, char *argv[])
 		.use_engine = 0,
 		.user_agent = NULL,
 	};
+
 	struct vpn_config cli_cfg = invalid_cfg;
 
 	const struct option long_options[] = {
@@ -286,6 +289,7 @@ int main(int argc, char *argv[])
 		{"password",             required_argument, NULL, 'p'},
 		{"cookie",               required_argument, NULL, 0},
 		{"cookie-on-stdin",      no_argument, NULL, 0},
+		{"saml",                 no_argument, &cli_cfg.saml, 1},
 		{"otp",                  required_argument, NULL, 'o'},
 		{"otp-prompt",           required_argument, NULL, 0},
 		{"otp-delay",            required_argument, NULL, 0},
@@ -706,15 +710,21 @@ int main(int argc, char *argv[])
 		log_error("Specify a valid host:port couple.\n");
 		goto user_error;
 	}
-	// Check username
-	if (cfg.username[0] == '\0' && !cfg.cookie)
+
+	if (geteuid() != 0) {
+		log_error("This process was not spawned with root privileges, which are required.\n");
+		ret = EXIT_FAILURE;
+		goto exit;
+	}
+
+	if (cfg.username[0] == '\0' && !cfg.cookie && !cfg.saml)
 		// Need either username or cert
 		if (cfg.user_cert == NULL) {
 			log_error("Specify a username.\n");
 			goto user_error;
 		}
 	// If username but no password given, interactively ask user
-	if (!cfg.password_set && cfg.username[0] != '\0' && !cfg.cookie) {
+	if (!cfg.password_set && cfg.username[0] != '\0' && !cfg.cookie && !cfg.saml) {
 		char hint[USERNAME_SIZE + 1 + REALM_SIZE + 1 + GATEWAY_HOST_SIZE + 10];
 
 		sprintf(hint, "%s_%s_%s_password",
@@ -726,17 +736,12 @@ int main(int argc, char *argv[])
 	log_debug("Configuration host = \"%s\"\n", cfg.gateway_host);
 	log_debug("Configuration realm = \"%s\"\n", cfg.realm);
 	log_debug("Configuration port = \"%d\"\n", cfg.gateway_port);
+
 	if (cfg.username[0] != '\0')
 		log_debug("Configuration username = \"%s\"\n", cfg.username);
 	log_debug_all("Configuration password = \"%s\"\n", cfg.password);
 	if (cfg.otp[0] != '\0')
 		log_debug("One-time password = \"%s\"\n", cfg.otp);
-
-	if (geteuid() != 0) {
-		log_error("This process was not spawned with root privileges, which are required.\n");
-		ret = EXIT_FAILURE;
-		goto exit;
-	}
 
 	do {
 		if (run_tunnel(&cfg) != 0)

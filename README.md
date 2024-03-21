@@ -27,6 +27,11 @@ Examples
   openfortivpn vpn-gateway:8443 --username=foo --realm=bar
   ```
 
+* Connect using saml:
+  ```
+  openfortivpn vpn-gateway:8443 --saml
+  ```
+
 * Store password securely with a pinentry program:
   ```shell
   openfortivpn vpn-gateway:8443 --username=foo --pinentry=pinentry-mac
@@ -132,11 +137,11 @@ For other distros, you'll need to build and install from source:
 
 1.  Install build dependencies.
 
-    * RHEL/CentOS/Fedora: `gcc` `automake` `autoconf` `openssl-devel` `make` `pkg-config`
-    * Debian/Ubuntu: `gcc` `automake` `autoconf` `libssl-dev` `make` `pkg-config`
-    * Arch Linux: `gcc` `automake` `autoconf` `openssl` `pkg-config`
-    * Gentoo Linux: `net-dialup/ppp` `pkg-config`
-    * openSUSE: `gcc` `automake` `autoconf` `libopenssl-devel` `pkg-config`
+    * RHEL/CentOS/Fedora: `gcc` `automake` `autoconf` `openssl-devel` `make` `pkg-config` `gtk3-devel` `webkit2gtk4.0-devel`
+    * Debian/Ubuntu: `gcc` `automake` `autoconf` `libssl-dev` `make` `pkg-config` `libgtk-3-dev` `libwebkitgtk-3.0-dev`
+    * Arch Linux: `gcc` `automake` `autoconf` `openssl` `pkg-config` `extra/webkit2gtk`
+    * Gentoo Linux: `net-dialup/ppp` `pkg-config` `net-libs/webkit-gtk`
+    * openSUSE: `gcc` `automake` `autoconf` `libopenssl-devel` `pkg-config` `webkit2gtk3`
     * macOS (Homebrew): `automake` `autoconf` `openssl@1.1` `pkg-config`
     * FreeBSD: `automake` `autoconf` `libressl` `pkgconf`
 
