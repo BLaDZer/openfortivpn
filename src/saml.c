@@ -33,30 +33,34 @@ static void cookie_ready_callback(GObject *obj, GAsyncResult *res,
 
 	GError *err = NULL;
 	GList *cookies =
-		webkit_cookie_manager_get_cookies_finish(cookie_mgr, res, &err);
+		webkit_cookie_manager_get_all_cookies_finish(cookie_mgr, res, &err);
 
 	if (err != NULL) {
-		printf("There was an error while getting the cookies: %s\n",
+		log_error("There was an error while getting the cookies: %s\n",
 		       err->message);
 		return;
 	}
 
-	// There was no cookie for the specified domain.
-	if (!cookies)
+	if (!cookies) {
+		log_debug("There was no cookies\n");
+
 		return;
+	}
 
 	GList *cur = cookies;
 	bool found_cookie = false;
 
 	while (cur) {
-		if (strcmp(soup_cookie_get_name(cur->data), "SVPNCOOKIE") ==
-		    0) {
+		if (strcmp(soup_cookie_get_name(cur->data), "SVPNCOOKIE") == 0) {
+			log_debug("Cookie SVPNCOOKIE was successfully found\n");
+
 			strcpy(svpncookie, "SVPNCOOKIE=");
 
-			strncpy(svpncookie +
-					sizeof(char) * strlen("SVPNCOOKIE="),
+			strncpy(
+				svpncookie + sizeof(char) * strlen("SVPNCOOKIE="),
 				soup_cookie_get_value(cur->data),
-				svpncookie_size);
+				svpncookie_size
+			);
 
 			// Just in case that strncpy doesn't set the null terminator.
 			svpncookie[svpncookie_size - 1] = '\0';
@@ -79,7 +83,7 @@ static void cookie_changed_cb(WebKitCookieManager *self, gpointer *data)
 	char url[strlen("https://") + strlen((const char *)data) + 1];
 	sprintf(url, "https://%s", (char *)data);
 
-	webkit_cookie_manager_get_cookies(self, url, NULL,
+	webkit_cookie_manager_get_all_cookies(self, NULL,
 					  cookie_ready_callback, data);
 }
 
