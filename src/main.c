@@ -87,6 +87,7 @@ PPPD_USAGE \
 "                    " RESOLVCONF_USAGE "[--ca-file=<file>]\n" \
 "                    [--user-cert=<file>] [--user-key=<file>]\n" \
 "                    [--use-syslog] [--trusted-cert=<digest>]\n" \
+"                    [--insecure-ssl]\n" \
 "                    [--persistent=<interval>] [-c <file>] [-v|-q]\n" \
 "       openfortivpn --help\n" \
 "       openfortivpn --version\n" \

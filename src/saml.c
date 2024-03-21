@@ -101,7 +101,7 @@ static char *get_under_home_dir(char *dir)
 }
 
 static int webkit_get_cookie(char *gateway_host, uint16_t gateway_port,
-		             char *realm, char *website_cert)
+		             char *realm, char *website_cert, bool insecure_ssl)
 {
 	char *cookie_file = get_under_home_dir(".openfortivpncookies");
 
@@ -137,6 +137,9 @@ static int webkit_get_cookie(char *gateway_host, uint16_t gateway_port,
 	webkit_web_context_allow_tls_certificate_for_host(web_context, cert,
 							  gateway_host);
 
+	if (insecure_ssl)
+		webkit_web_context_set_tls_errors_policy(web_context, WEBKIT_TLS_ERRORS_POLICY_IGNORE);
+
 	// Maximum possible port length is 5 (65536/XXXXX)
 	char saml_url[strlen("https://XXXXX/remote/saml/start") + strlen(gateway_host) +
 		      strlen("?realm=") + strlen(realm) + 1];
@@ -163,9 +166,13 @@ static int webkit_get_cookie(char *gateway_host, uint16_t gateway_port,
 }
 
 /* Returns 0 if the cookie was set successfully. -1 if there was an error. */
-int saml_get_cookie(char *gateway_host, uint16_t gateway_port, char *realm,
-		    char **dst_cookie, char *cert)
+int saml_get_cookie(struct vpn_config *config, char *cert)
 {
+	char *gateway_host = config->gateway_host;
+	uint16_t gateway_port = config->gateway_port;
+	char *realm = config->realm;
+	char **dst_cookie = &config->cookie;
+
 	svpncookie_size = sizeof(char) * (COOKIE_SIZE + 1);
 
 	// This is needed because the browser (child process) needs to set the
@@ -204,7 +211,7 @@ int saml_get_cookie(char *gateway_host, uint16_t gateway_port, char *realm,
 		setenv("XDG_RUNTIME_DIR", xdg_runtime_dir, 1);
 
 		setuid(browser_uid);
-		webkit_get_cookie(gateway_host, gateway_port, realm, cert);
+		webkit_get_cookie(gateway_host, gateway_port, realm, cert, config->insecure_ssl);
 
 		free(home_dir);
 		free(xdg_runtime_dir);

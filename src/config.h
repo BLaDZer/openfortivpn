@@ -129,7 +129,7 @@ struct vpn_config {
 	int			pem_passphrase_set;
 	int			insecure_ssl;
 	int			min_tls;
-	int                     saml;
+	int			saml;
 	int			seclevel_1;
 	char			*cipher_list;
 	struct x509_digest	*cert_whitelist;
