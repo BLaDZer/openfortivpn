@@ -30,6 +30,7 @@
 #include "http.h"
 #include "log.h"
 #include "userinput.h"
+#include "saml.h"
 
 #include <openssl/err.h>
 #ifndef OPENSSL_NO_ENGINE
@@ -37,6 +38,7 @@
 #endif
 #include <openssl/ui.h>
 #include <openssl/x509v3.h>
+#include <openssl/bio.h>
 #if HAVE_SYSTEMD
 #include <systemd/sd-daemon.h>
 #endif
@@ -65,7 +67,6 @@
 #include <signal.h>
 #include <string.h>
 #include <assert.h>
-
 
 struct ofv_varr {
 	unsigned int cap;	// current capacity
@@ -1198,7 +1199,6 @@ int ssl_connect(struct tunnel *tunnel)
 	}
 	SSL_set_mode(tunnel->ssl_handle, SSL_MODE_AUTO_RETRY);
 
-
 	// Set SNI for the session
 	const char *sni = tunnel->config->sni[0] ? tunnel->config->sni :
 	                  tunnel->config->gateway_host;
@@ -1273,10 +1273,31 @@ int run_tunnel(struct vpn_config *config)
 
 	// Step 2: connect to the HTTP interface and authenticate to get a
 	// cookie
+	if (config->saml) {
+		X509 *cert = SSL_get_peer_certificate(tunnel.ssl_handle);
+
+		BIO *b = BIO_new(BIO_s_mem());
+
+		PEM_write_bio_X509(b, cert);
+
+		char *cert_buffer;
+
+		BIO_get_mem_data(b, &cert_buffer);
+
+		BIO_set_close(b, BIO_NOCLOSE);
+		BIO_free(b);
+		X509_free(cert);
+
+		saml_get_cookie(config, cert_buffer);
+
+		free(cert_buffer);
+	}
+
 	if (config->cookie)
 		ret = auth_set_cookie(&tunnel, config->cookie);
 	else
 		ret = auth_log_in(&tunnel);
+
 	if (ret != 1) {
 		log_error("Could not authenticate to gateway. Please check the password, client certificate, etc.\n");
 		log_debug("%s (%d)\n", err_http_str(ret), ret);
