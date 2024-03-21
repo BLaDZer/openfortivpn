@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-int saml_get_cookie(char *gateway_host, uint16_t gateway_port, char *realm, char **dst_cookie, char *cert);
+int saml_get_cookie(struct vpn_config *config, char *cert);
 
 #endif
