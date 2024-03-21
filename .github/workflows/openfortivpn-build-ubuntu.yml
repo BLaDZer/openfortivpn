@@ -1,0 +1,36 @@
+---
+name: Build
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build-debs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build deb package with mk-build-deps
+        run: |
+          sudo apt-get install devscripts equivs
+          sudo mk-build-deps -B
+
+      # - name: Install dependencies
+      #   run: |
+      #     sudo apt-get install libwebkit2gtk-4.0-dev resolvconf libsystemd-dev
+
+      # - name: Build deb package with dpkg-buildpackage
+      #   run: |
+      #     dpkg-buildpackage -rfakeroot -us -uc
+      #     ls -lha
+
+      - name: Release the Package
+        uses: softprops/action-gh-release@v2
+        with:
+          files: openfortivpn*.deb
