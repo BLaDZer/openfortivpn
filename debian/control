@@ -10,7 +10,7 @@ Build-Depends: autoconf,
                libsystemd-dev,
                pkg-config,
                libgtk-3-dev,
-               libwebkit2gtk-4.0-dev,
+               libwebkit2gtk-4.1-dev,
                resolvconf
 Standards-Version: 4.6.2
 Homepage: https://github.com/adrienverge/openfortivpn

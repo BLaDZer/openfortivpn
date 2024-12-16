@@ -36,7 +36,7 @@ AC_CHECK_LIB([pthread], [pthread_create], [], [AC_MSG_ERROR([Cannot find libpthr
 AC_CHECK_LIB([util], [forkpty], [], [AC_MSG_ERROR([Cannot find libutil.])])
 PKG_CHECK_MODULES(LIBSYSTEMD, [libsystemd], [AC_DEFINE(HAVE_SYSTEMD)], [AC_MSG_RESULT([libsystemd not present])])
 PKG_CHECK_MODULES(LIBGTK, [gtk+-3.0], [AC_DEFINE(HAVE_GTK)], [AC_MSG_RESULT([gtk not present])])
-PKG_CHECK_MODULES(LIBWEBKIT, [webkit2gtk-4.0], [AC_DEFINE(HAVE_WEBKIT)], [AC_MSG_RESULT([webkit2gtk not present])])
+PKG_CHECK_MODULES(LIBWEBKIT, [webkit2gtk-4.1], [AC_DEFINE(HAVE_WEBKIT)], [AC_MSG_RESULT([webkit2gtk not present])])
 
 # we assume presence of the following C standard headers
 # and omit them in the following header checks
